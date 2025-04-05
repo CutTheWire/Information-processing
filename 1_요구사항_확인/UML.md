@@ -69,3 +69,28 @@
 > - 사물에서 기능 쪽으로 속이 빈 점선 화살표를 연결하여 표현한다.
 >
 >   ![alt text](./img/UML_실체화_관계.png)
+
+# 4. 다이어그램(Diagram)
+> ## 구조적 다이어그램(Class Diagram)
+> - [클래스 다이어그램(Class Diagram)](./UML_클래스_다이어그램.md)
+> - 객체 다이어그램(Object Diagram)
+> - 컴포넌트 다이어그램(Component Diagram)
+> - 배치 다이어그램(Deployment Diagram)
+> - 복합체 구조 다이어그램(Composite Structure Diagram)
+> - 패키지 다이어그램(Package Diagram)
+>
+> ## 행위 다이어그램(Behavialoral Diagram)
+> - [유스케이스 다이어그램(Use Case Diagram)](./UML_유스케이스_다이어그램.md)
+> - 순차 다이어그램(Sequence Diagram)
+> - 커뮤니케이션 다이어그램(Communication Diagram)
+> - 상태 다이어그램(State Diagram)
+> - 활동 다이어그램(Activity Diagram)
+> - 상호작용 개요 다이어그램(Interaction Overview Diagran)
+> - 타이밍 다이어그램(Timing Diagram)
+>
+> ## 스테레오 타입(Stereotype)
+> - <<include>> : 연결된 다른 UML 요소에 대해 포함 관계에 있는 경우
+> - <<extends>> : 연결된 다른 UML 요소에 대해 확장 관계에 있는 경우
+> - <<interface>> : 인터페이스를 정의하는 경우
+> - <<exception>> : 예외를 정의하는 경우
+> - <<constructor>> : 생성자 역할을 수행하는 경우우
