@@ -77,11 +77,11 @@
 > - 컴포넌트 다이어그램(Component Diagram)
 > - 배치 다이어그램(Deployment Diagram)
 > - 복합체 구조 다이어그램(Composite Structure Diagram)
-> - 패키지 다이어그램(Package Diagram)
+> - [패키지 다이어그램(Package Diagram)](./UML_패키지_다이어그램.md)
 >
 > ## 행위 다이어그램(Behavialoral Diagram)
 > - [유스케이스 다이어그램(Use Case Diagram)](./UML_유스케이스_다이어그램.md)
-> - 순차 다이어그램(Sequence Diagram)
+> - [순차 다이어그램(Sequence Diagram)](./UML_순차_다이어그램.md)
 > - 커뮤니케이션 다이어그램(Communication Diagram)
 > - 상태 다이어그램(State Diagram)
 > - 활동 다이어그램(Activity Diagram)
