@@ -90,8 +90,8 @@
 > - 타이밍 다이어그램(Timing Diagram)
 >
 > ## 스테레오 타입(Stereotype)
-> - <<include>> : 연결된 다른 UML 요소에 대해 포함 관계에 있는 경우
-> - <<extends>> : 연결된 다른 UML 요소에 대해 확장 관계에 있는 경우
-> - <<interface>> : 인터페이스를 정의하는 경우
-> - <<exception>> : 예외를 정의하는 경우
-> - <<constructor>> : 생성자 역할을 수행하는 경우우
+> - `<<include>>` : 연결된 다른 UML 요소에 대해 포함 관계에 있는 경우
+> - `<<extends>>` : 연결된 다른 UML 요소에 대해 확장 관계에 있는 경우
+> - `<<interface>>` : 인터페이스를 정의하는 경우
+> - `<<exception>>` : 예외를 정의하는 경우
+> - `<<constructor>>` : 생성자 역할을 수행하는 경우우
