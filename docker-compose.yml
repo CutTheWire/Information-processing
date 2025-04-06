@@ -1,0 +1,9 @@
+services:
+  information-processing:
+    build: .
+    ports:
+      - "8010:8010"
+    volumes:
+      - .:/app
+    environment:
+      - PYTHONUNBUFFERED=1
