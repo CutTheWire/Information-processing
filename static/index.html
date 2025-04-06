@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} - 정보처리기사</title>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            min-height: 100vh;
+            background-color: #f5f5f5;
+        }
+        
+        .sidebar {
+            width: 300px;
+            background-color: #2c3e50;
+            color: #fff;
+            padding: 20px;
+            overflow-y: auto;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+        
+        .sidebar.hidden {
+            transform: translateX(-100%);
+        }
+        
+        .content {
+            flex: 1;
+            padding: 100px;
+            margin-left: 300px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            min-height: 100vh;
+            position: relative;
+            z-index: 1;
+            transition: margin-left 0.3s ease;
+        }
+        
+        .content.expanded {
+            margin-left: 0;
+        }
+        
+        .toggle-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1100;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .toggle-button:hover {
+            background-color: #2980b9;
+        }
+        
+        .sidebar h2 {
+            margin-top: 0;
+            border-bottom: 1px solid #3a506b;
+            padding-bottom: 10px;
+        }
+        
+        .sidebar ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .sidebar li {
+            margin-bottom: 5px;
+        }
+        
+        .sidebar a {
+            color: #ecf0f1;
+            text-decoration: none;
+            display: block;
+            padding: 6px 8px;
+            border-radius: 4px;
+        }
+        
+        .sidebar a:hover {
+            background-color: #34495e;
+        }
+        
+        .sidebar a.active {
+            background-color: #3498db;
+        }
+        
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        
+        .folder {
+            cursor: pointer;
+        }
+        
+        .folder-content {
+            margin-left: 15px;
+            display: none;
+        }
+        
+        .folder.open .folder-content {
+            display: block;
+        }
+        
+        .folder::before {
+            content: "▶";
+            display: inline-block;
+            margin-right: 5px;
+            transition: transform 0.2s;
+        }
+        
+        .folder.open::before {
+            transform: rotate(90deg);
+        }
+
+        /* 이미지 크기 조정 */
+        img {
+            max-width: 100%; /* 화면 폭에 맞게 조정 */
+            height: auto; /* 비율 유지 */
+            display: block; /* 이미지 아래 여백 제거 */
+            margin: 20px auto; /* 이미지 가운데 정렬 */
+        }
+
+        /* 표 스타일 추가 */
+        table {
+            width: 100%;
+            border-collapse: collapse; /* 셀 간격 제거 */
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #ddd; /* 셀 구분선 추가 */
+            padding: 8px; /* 셀 내부 여백 */
+            text-align: left; /* 텍스트 정렬 */
+        }
+
+        th {
+            background-color: #f2f2f2; /* 헤더 배경색 */
+            font-weight: bold; /* 헤더 텍스트 굵게 */
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9; /* 짝수 행 배경색 */
+        }
+
+        tr:hover {
+            background-color: #f1f1f1; /* 행에 마우스 올릴 때 배경색 */
+        }
+    </style>
+</head>
+<body>
+    <button class="toggle-button">메뉴</button>
+    <nav class="sidebar">
+        <h2>정보처리기사</h2>
+        <ul>
+            <li><a href="/">홈</a></li>
+            <!-- 폴더 구조 렌더링 -->
+            {% for folder_name, folder_content in structure.items() %}
+            <li>
+                <div class="folder">{{ folder_name.replace('_', ' ') }}</div>
+                <div class="folder-content">
+                    {% for file in folder_content.__files %}
+                    <a href="/view/{{ folder_name }}/{{ file[:-3] }}" 
+                       {% if current_path and current_path == folder_name + '/' + file[:-3] %}class="active"{% endif %}>
+                        {{ file[:-3].replace('_', ' ') }}
+                    </a>
+                    {% endfor %}
+                    
+                    {% for subfolder_name, subfolder_content in folder_content.items() %}
+                        {% if subfolder_name != "__files" %}
+                        <div class="folder">{{ subfolder_name.replace('_', ' ') }}</div>
+                        <div class="folder-content">
+                            {% for file in subfolder_content.__files %}
+                            <a href="/view/{{ folder_name }}/{{ subfolder_name }}/{{ file[:-3] }}" 
+                               {% if current_path and current_path == folder_name + '/' + subfolder_name + '/' + file[:-3] %}class="active"{% endif %}>
+                                {{ file[:-3].replace('_', ' ') }}
+                            </a>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </nav>
+    
+    <main class="content">
+        {{ content|safe }}
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 사이드바 토글 버튼
+            const toggleButton = document.querySelector('.toggle-button');
+            const sidebar = document.querySelector('.sidebar');
+            const content = document.querySelector('.content');
+            
+            toggleButton.addEventListener('click', function() {
+                sidebar.classList.toggle('hidden');
+                content.classList.toggle('expanded');
+            });
+
+            // 폴더 클릭 이벤트 처리
+            document.querySelectorAll('.folder').forEach(folder => {
+                folder.addEventListener('click', function() {
+                    this.classList.toggle('open');
+                    
+                    // 현재 요소 다음의 폴더 내용 요소 찾기
+                    const folderContent = this.nextElementSibling;
+                    if (folderContent && folderContent.classList.contains('folder-content')) {
+                        folderContent.style.display = folderContent.style.display === 'block' ? 'none' : 'block';
+                    }
+                });
+            });
+            
+            // 현재 활성화된 항목의 폴더 열기
+            document.querySelectorAll('.active').forEach(active => {
+                let parent = active.parentElement;
+                while (parent) {
+                    if (parent.classList.contains('folder-content')) {
+                        parent.style.display = 'block';
+                        const folderElement = parent.previousElementSibling;
+                        if (folderElement && folderElement.classList.contains('folder')) {
+                            folderElement.classList.add('open');
+                        }
+                    }
+                    parent = parent.parentElement;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
