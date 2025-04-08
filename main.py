@@ -56,16 +56,27 @@ def read_markdown_file(file_path):
     try:
         with open(file_path, 'r', encoding='utf-8') as f:
             content = f.read()
+            
+            # 상대 경로로 된 이미지 경로를 절대 경로로 변환
+            # 파일 경로에서 폴더 이름을 추출
+            folder_path = os.path.dirname(file_path)
+            relative_folder = os.path.relpath(folder_path, BASE_DIR)
+            
+            # 이미지 경로를 해당 폴더의 절대 경로로 변환
             content = re.sub(
                 r'!\[(.*?)\]\(\./img/(.*?)\)',
-                r'![\1](/img/1_요구사항_확인/img/\2)',
+                rf'![\1](/img/{relative_folder}/img/\2)',
                 content
             )
+            
+            # 내부 링크 처리
             content = re.sub(
                 r'\[(.*?)\]\(\./(.*?)\.md(#.*?)?\)',
                 r'[\1](/view/\2\3)',
                 content
             )
+            
+            # HTML로 변환
             html = markdown.markdown(
                 content,
                 extensions=[

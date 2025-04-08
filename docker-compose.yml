@@ -1,9 +1,10 @@
 services:
-  information-processing:
+  web:
     build: .
+    image: info-processing-study
+    container_name: info-processing-study
     ports:
       - "8010:8010"
     volumes:
       - .:/app
-    environment:
-      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
